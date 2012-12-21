@@ -62,7 +62,7 @@ $(document).ready(function() {
 					$("#error_"+i).text("").hide();
 				}
 			}else if(type==1){
-					if(minValidationValue>1){
+					if(minValidationValue>0){
 						var answer=$('select[name="userPreferences['+i+'].answer"]').val();
 						if(answer==""){
 							$("#error_"+i).text("至少选择一个选项").show();
