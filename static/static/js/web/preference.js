@@ -5,33 +5,32 @@ $(document).ready(function() {
 
 	$(".save").bind("click", function() {
 		var preference_count=parseInt($("#preference_count").val());
-		var filterPreference_count=parseInt($("#filterPreference_count").val());
-		for(var i=0;i<(preference_count+filterPreference_count);i++){
+		for(var i=0;i<(preference_count);i++){
 			var preferenceId=$("#preferenceId_"+i).val();
 			var type=$("#inputType_"+i).val();
-			var preferenceType=$("#preferenceType_"+i).val();
+			var minValidationValue=$("#minValidationValue_"+i).val();
+			var maxValidationValue=$("#maxValidationValue_"+i).val();
 			if(type==0){
-				//不等于筛选是必填
-				if(preferenceType==1){
-					var flag=false;
+					var checkedCount=0;
 					$('input[name="userPreferences['+i+'].answer"]').each(function(){
 						if(this.checked){
-							flag=true;
+							checkedCount=checkedCount+1;
 						}
 					});
-					if(!flag){
-						$("#error_"+i).text("至少选择一个选项！").show();
+					if(checkedCount>maxValidationValue){
+						$("#error_"+i).text("选择请不要超过"+maxValidationValue+"项").show();
 				        return ;
+					}else if(checkedCount<minValidationValue){
+						$("#error_"+i).text("请至少选择"+minValidationValue+"项").show();
+						return ;
 					}else{
 						$("#error_"+i).text("").hide();
 					}
-				}
 			}else if(type==2){
-				var min=$("#minText_"+i).val();
-				var max=$("#maxText_"+i).val();
-				if(preferenceType==1||min!=""||max!=""){
+					var min=$("#minText_"+i).val();
+					var max=$("#maxText_"+i).val();
 					if(!isNum(min)||!isNum(max)){
-						 $("#error_"+i).text("请输入数字！").show();
+						 $("#error_"+i).text("请输入数字").show();
 					        return ;	
 					}else{
 						$("#error_"+i).text("").hide();
@@ -44,38 +43,39 @@ $(document).ready(function() {
 						max=min;
 						min=t;
 					}
-					if(min<16||max>50){
-						 $("#error_"+i).text("请输入16-50之间的数字！").show();
+					if(min<minValidationValue||max>maxValidationValue){
+						 $("#error_"+i).text("请输入"+minValidationValue+"-"+maxValidationValue+"之间的数字！").show();
 					        return ;	
 					}else{
 						$("#error_"+i).text("").hide();
 					}
 					$("#minText_"+i).val(min);
 					$("#maxText_"+i).val(max);
-				}
 			}else if(type==3){
-				if(getByteLen($('textarea[name="userPreferences['+i+'].answer"]').val())>100){
-					 $("#error_"+i).text("内容不能大于50个字").show();
+				if(getByteLen($('textarea[name="userPreferences['+i+'].answer"]').val())>maxValidationValue){
+					 $("#error_"+i).text("输入内容请不要超过"+maxValidationValue/2+"字").show();
+				        return ;	
+				}else if(getByteLen($('textarea[name="userPreferences['+i+'].answer"]').val())<minValidationValue){
+					 $("#error_"+i).text("请输入内容").show();
 				        return ;	
 				}else{
 					$("#error_"+i).text("").hide();
 				}
 			}else if(type==1){
-				//不等于筛选是必填
-				if(preferenceType==1){
-					var answer=$('select[name="userPreferences['+i+'].answer"]').val();
-					if(answer==""){
-						$("#error_"+i).text("至少选择一个选项！").show();
-				        return ;
-					}else{
-						$("#error_"+i).text("").hide();
+					if(minValidationValue>1){
+						var answer=$('select[name="userPreferences['+i+'].answer"]').val();
+						if(answer==""){
+							$("#error_"+i).text("至少选择一个选项").show();
+					        return ;
+						}else{
+							$("#error_"+i).text("").hide();
+						}
 					}
-				}
 			}
 			var des=$('input[name="userPreferences['+i+'].description"]').val();
 			if (undefined != des) {
 				if(getByteLen(des)>100){
-					 $("#error_"+i).text("描述内容不能大于50个字").show();
+					 $("#error_"+i).text("补充内容请不要超过50字").show();
 				        return ;	
 				}else{
 					$("#error_"+i).text("").hide();
