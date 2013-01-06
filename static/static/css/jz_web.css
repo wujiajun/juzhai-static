@@ -1879,7 +1879,7 @@ body:nth-of-type(1) .select_pub .sel_r{ width:30px; height:32px; float:left; bac
 /*有多少人留言*/
 
 
-.response .repy_area_s2{ width:620px; margin:0 auto; margin-top:0px; margin-top:15px;}
+.response .repy_area_s2{ width:620px; margin:15px auto;}
 .response .repy_area_s2 .w450{ width:610px;}
 .response .repy_area_s2 .repy_for{ width:100%; background:url(../images/web2/repy_for_bg_long.jpg) no-repeat;}
 .response .repy_area_s2 .input{ width:100%;}
