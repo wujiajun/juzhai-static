@@ -62,7 +62,7 @@ $(document).ready(function(){
 		if(commentListBox.attr("loaded") == "false"){
 			commentListBox.attr("loaded", true);
 			commentWidget.bindReply();
-			commentWidget.loadList();
+//			commentWidget.loadList();
 		}
 		if(commentListBox.is(":visible")){
 			commentListBox.fadeOut(100, function(){

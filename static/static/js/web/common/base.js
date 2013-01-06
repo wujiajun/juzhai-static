@@ -1253,43 +1253,30 @@ var CommentWidget = Class.extend({
 				return false;
 			}
 			var content = commentForm.find("input[name='content']").val();
-			if(!checkValLength(content, 4, 280)){
-				commentForm.find(".error").text("留言内容请控制在2~140字以内").show();
+			if(!checkValLength(content, 1, 200)){
+				commentForm.find(".error").text("请不要超过100字").show();
 				return false;
 			}
 			sendBtn.text("发布中").addClass("done");
 			$.ajax({
-				url : "/post/quickcomment",
+				url : "/post/comment",
 				type : "post",
 				cache : false,
 				data : commentForm.serialize(),
-				dataType : "html",
+				dataType : "json",
 				success : function(result) {
-					sendBtn.text("发布留言").removeClass("done");
-					result = $.trim(result);
-					var isJson = /^{.*}$/.test(result); 
-					if(isJson){
-						var jsonResult = (new Function("return " + result))();
-						if(!jsonResult.success){
-							if(jsonResult.errorCode=="00004"){
-								commentForm.find(".error").html("<a href='/home/guide' class='txt' target='_blank'>"+jsonResult.errorInfo+"</a>").show();
-							}else{
-								commentForm.find(".error").text(jsonResult.errorInfo).show();	
-							}
-							return;
+					sendBtn.text("发布留言").removeClass("done"); 
+					if(!result.success){
+						if(result.errorCode=="00004"){
+							commentForm.find(".error").html("<a href='/home/guide' class='txt' target='_blank'>"+result.errorInfo+"</a>").show();
+						}else{
+							commentForm.find(".error").text(result.errorInfo).show();	
 						}
+						return;
 					} else {
 						privateInitForm(commentForm);
-						if(null != commentList && commentList.length > 0){
-							var item = $(result);
-							bindItemMouseHover(item);
-							bindDelLink(item);
-							commentList.find("div.repy_list_s2").addClass("bd_line").find("ul").prepend(item);
-							item.fadeIn("slow");	
-						}else{
-							var content = $("#dialog-success").html().replace("{0}", "好的，ta会看到你");
-							showSuccess(sendBtn[0], content);
-						}
+						var content = $("#dialog-success").html().replace("{0}", "发送成功，可在消息页查看");
+						showSuccess(sendBtn[0], content);
 					}
 				},
 				statusCode : {
