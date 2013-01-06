@@ -1254,7 +1254,7 @@ var CommentWidget = Class.extend({
 			}
 			var content = commentForm.find("input[name='content']").val();
 			if(!checkValLength(content, 1, 200)){
-				commentForm.find(".error").text("请不要超过100字").show();
+				commentForm.find(".error").text("留言内容控制在1－200字以内").show();
 				return false;
 			}
 			sendBtn.text("发布中").addClass("done");
