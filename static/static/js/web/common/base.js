@@ -320,7 +320,7 @@ function showSuccess(followObj, dialogContent){
 		drag : false,
 		resize : false,
 		content : dialogContent,
-		time: 1
+		time: 2
 	};
 	if(null!=followObj){
 		options["follow"]=followObj;
@@ -529,7 +529,7 @@ function sendDate(uid, btn, ideaId, followBtn, successCallback){
 		dataType : "json",
 		success : function(result) {
 			if (result && result.success) {
-				var successContent = $("#dialog-success").html().replace("{0}", "发送成功！");
+				var successContent = $("#dialog-success").html().replace("{0}", "发送成功，ta看到会开心的");
 				closeDialog("openDate");
 				showSuccess(followBtn, successContent);
 				if(null != successCallback){
@@ -601,7 +601,7 @@ function responsePost(postId, content, successCallback, errorCallback,clickObj){
 		success : function(result) {
 			if (result && result.success) {
 				successCallback();
-				var content = $("#dialog-success").html().replace("{0}", "ta看到会开心的");
+				var content = $("#dialog-success").html().replace("{0}", "好的，已告诉ta你有兴趣");
 				showSuccess(clickObj, content);
 			} else {
 				errorCallback(result.errorInfo);
@@ -1254,7 +1254,7 @@ var CommentWidget = Class.extend({
 			}
 			var content = commentForm.find("input[name='content']").val();
 			if(!checkValLength(content, 1, 200)){
-				commentForm.find(".error").text("留言内容控制在1－200字以内").show();
+				commentForm.find(".error").text("留言内容控制在1－100字以内").show();
 				return false;
 			}
 			sendBtn.text("发布中").addClass("done");
@@ -1431,7 +1431,7 @@ function saveReport(){
 		dataType: "json",
 		success: function(result){
 			if(result&&result.success){
-				var content = $("#dialog-success").html().replace("{0}", "提交成功！");
+				var content = $("#dialog-success").html().replace("{0}", "感谢举报，我们核实后会尽快处理");
 				showSuccess(null, content);
 			}else{
 				alert(result.errorInfo);
