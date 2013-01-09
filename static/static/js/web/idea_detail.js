@@ -122,7 +122,7 @@ function createMap(id){
 	var townName=$("#"+id).attr("town-name");
 	var myLatLng = new google.maps.LatLng(lat,lng);
 	var opts = {
-	  zoom:18,
+	  zoom:15,
 	  center: myLatLng,
 	  mapTypeId: google.maps.MapTypeId.ROADMAP
 	};
