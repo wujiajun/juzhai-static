@@ -65,7 +65,7 @@ $(document).ready(function(){
 	
 	
 	var script = document.createElement("script");
-	  script.src = "http://api.map.baidu.com/api?v=1.2&callback=initialize";
+	  script.src ="https://maps.google.com/maps/api/js?sensor=false&callback=initialize";
 	  document.body.appendChild(script);
 	
 });
@@ -81,8 +81,7 @@ function initialize(){
 			if(result.indexOf("container")!=-1){
 				$("#map-view").show();
 				$("#map-view").html(result);
-				var opts = {type: BMAP_NAVIGATION_CONTROL_ZOOM}; 
-				createMap("container",opts);
+				createMap("container");
 				$("#map-view").find("div.view_map > a").bind("click", function() {
 					var ideaId=$(this).attr("idea-id");
 					$.ajax({
@@ -93,8 +92,7 @@ function initialize(){
 						success : function(result) {
 							if(result.indexOf("map_tcc")!=-1){
 								var dialog = openDialog(null, "bigMap", result);
-								var opts = {type: BMAP_NAVIGATION_CONTROL_LARGE}; 
-								createMap("big-map-container",opts);
+								createMap("big-map-container");
 							}
 						},
 						statusCode : {
@@ -116,19 +114,23 @@ function initialize(){
 	return false;
 }
 
-function createMap(id,opts){
+function createMap(id){
 	var lat=$("#"+id).attr("lat");
 	var lng=$("#"+id).attr("lng");
 	var ctiyName=$("#"+id).attr("city-name");
 	var placeName=$("#"+id).attr("place-name");
 	var townName=$("#"+id).attr("town-name");
-	var map = new BMap.Map(id);
-	map.enableScrollWheelZoom();
-	var point =new BMap.Point(lng,lat);
- 	map.centerAndZoom(point,15);  
-	var marker = new BMap.Marker(point);        // 创建标注
-	marker.setTitle(ctiyName+townName+placeName);
-	map.addControl(new BMap.NavigationControl(opts));
-	map.addControl(new BMap.OverviewMapControl());  
-	map.addOverlay(marker);
+	var myLatLng = new google.maps.LatLng(lat,lng);
+	var opts = {
+	  zoom:18,
+	  center: myLatLng,
+	  mapTypeId: google.maps.MapTypeId.ROADMAP
+	};
+	var map = new google.maps.Map(document.getElementById(id),
+			opts);
+	var marker = new google.maps.Marker({
+	      position: myLatLng,
+	      title:ctiyName+townName+placeName
+	  });
+	marker.setMap(map); 
 }
