@@ -304,7 +304,7 @@ function userCreateIdea() {
 							$("input[name='place']").parent().parent()
 									.addClass("wrong");
 						} else if (result.errorCode == '180006'
-								|| result.errorCode == '180008') {
+								|| result.errorCode == '180008'|| result.errorCode == '180015') {
 							$("#detail-tip").show().text(result.errorInfo);
 							$("textarea[name='detail']").parent().parent()
 									.addClass("wrong");
@@ -318,7 +318,7 @@ function userCreateIdea() {
 							$("#start-date-tip").show().text(result.errorInfo);
 							$("input[name='startDay']").parent().parent()
 									.addClass("wrong");
-						} else {
+						}else {
 							alert(result.errorInfo);
 						}
 					}
